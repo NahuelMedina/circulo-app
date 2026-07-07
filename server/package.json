@@ -1,0 +1,22 @@
+{
+  "name": "circulo-app-server",
+  "version": "1.0.0",
+  "description": "Backend de la aplicación Círculo",
+  "main": "app.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "keywords": [],
+  "author": "Nahuel Medina",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "uuid": "^14.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

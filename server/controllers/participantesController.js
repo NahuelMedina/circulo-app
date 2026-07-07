@@ -1,72 +1,60 @@
-const circulos = require("../data/circulos");
+const services = require("../services");
 const { v4: uuidv4 } = require("uuid");
+
 // Agregar Participante
 const agregarParticipante = (req, res) => {
-  const { id } = req.params;
-  const { nombre, telefono } = req.body;
+  try {
+    const { id } = req.params;
+    const { nombre, telefono } = req.body;
 
-  const circulo = circulos.find((c) => c.id === id);
+    const circulo = services.circulo.findCirculoById(id);
 
-  if (!circulo) {
-    return res.status(404).json({
-      mensaje: "Círculo no encontrado",
-    });
+    const participante = {
+      id: uuidv4(),
+      nombre,
+      telefono,
+      activo: true,
+    };
+
+    circulo.participantes.push(participante);
+
+    res.status(201).json(participante);
+  } catch (error) {
+    next(error);
   }
-
-  const participante = {
-    id: uuidv4(),
-    nombre,
-    telefono,
-    activo: true,
-  };
-
-  circulo.participantes.push(participante);
-
-  res.status(201).json(participante);
 };
 
 // Obtener participantes
 const obtenerParticipantes = (req, res) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-  const circulo = circulos.find((c) => c.id === Number(id));
+    const circulo = services.circulo.findCirculoById(id);
 
-  if (!circulo) {
-    return res.status(404).json({
-      mensaje: "Círculo no encontrado",
-    });
+    res.json(circulo.participantes);
+  } catch (error) {
+    next(error);
   }
-
-  res.json(circulo.participantes);
 };
 
 // Eliminar participante
 const eliminarParticipante = (req, res) => {
-  const { id, participanteId } = req.params;
+  try {
+    const { id, participanteId } = req.params;
 
-  const circulo = circulos.find((c) => c.id === Number(id));
+    const circulo = services.circulo.findCirculoById(id);
+    const participante = services.participante.deleteParticipanteById(
+      circulo,
+      participanteId,
+    );
 
-  if (!circulo) {
-    return res.status(404).json({
-      mensaje: "Círculo no encontrado",
+    res.json({
+      mensaje: "Participante eliminado",
+      participante,
     });
+  } catch (error) {
+    next(error);
   }
-
-  const index = circulo.participantes.findIndex(
-    (p) => p.id === Number(participanteId),
-  );
-
-  if (index === 1) {
-    return res.status(404).json({
-      mensaje: "Participante no encontrado",
-    });
-  }
-
-  circulo.participantes.splice(index, 1);
-
-  res.json({
-    mensaje: "Participante eliminado",
-  });
 };
 
 module.exports = {

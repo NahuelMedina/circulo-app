@@ -2,7 +2,7 @@ const services = require("../services");
 const { v4: uuidv4 } = require("uuid");
 
 // Agregar Participante
-const agregarParticipante = (req, res) => {
+const agregarParticipante = (req, res, next) => {
   try {
     const { id } = req.params;
     const { nombre, telefono } = req.body;
@@ -25,7 +25,7 @@ const agregarParticipante = (req, res) => {
 };
 
 // Obtener participantes
-const obtenerParticipantes = (req, res) => {
+const obtenerParticipantes = (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -38,7 +38,7 @@ const obtenerParticipantes = (req, res) => {
 };
 
 // Eliminar participante
-const eliminarParticipante = (req, res) => {
+const eliminarParticipante = (req, res, next) => {
   try {
     const { id, participanteId } = req.params;
 

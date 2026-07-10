@@ -1,6 +1,6 @@
 const services = require("../services");
 
-const registrarPago = (req, res) => {
+const registrarPago = (req, res, next) => {
   try {
     const { id } = req.params;
 

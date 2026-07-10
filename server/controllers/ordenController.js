@@ -1,5 +1,5 @@
 const services = require("../services");
-const definirOrdenManual = (req, res) => {
+const definirOrdenManual = (req, res, next) => {
   try {
     const { id } = req.params;
     const { orden } = req.body;

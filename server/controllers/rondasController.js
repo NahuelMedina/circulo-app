@@ -1,6 +1,6 @@
 const services = require("../services");
 
-const cerrarRonda = (req, res) => {
+const cerrarRonda = (req, res, next) => {
   try {
     const { id } = req.params;
     const { cobradorId } = req.body;
@@ -45,14 +45,16 @@ const cerrarRonda = (req, res) => {
       circulo.rondaActual++;
       res.json({
         mensaje: "Ronda cerrada correctamente",
-        ronda,
+        rondaCerrada: ronda.numero,
+        proximaRonda: circulo.rondaActual,
+        estado: circulo.estado,
       });
     } else {
       circulo.estado = "finalizado";
       circulo.fechaFin = new Date();
       res.json({
         mensaje: "El círculo finalizadó correctamente",
-        ronda,
+        estado: circulo.estado,
       });
     }
   } catch (error) {

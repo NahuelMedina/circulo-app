@@ -7,7 +7,7 @@ const obtenerCirculos = (req, res) => {
 };
 
 // Obtener uno
-const obtenerCirculo = (req, res) => {
+const obtenerCirculo = (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -40,7 +40,7 @@ const crearCirculo = (req, res) => {
 };
 
 // Eliminar
-const eliminarCirculo = (req, res) => {
+const eliminarCirculo = (req, res, next) => {
   try {
     const { id } = req.params;
     const circulo = services.circulo.deleteCirculoById(id);
@@ -54,7 +54,7 @@ const eliminarCirculo = (req, res) => {
   }
 };
 
-const crearRonda = (req, res) => {
+const crearRonda = (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -81,7 +81,7 @@ const crearRonda = (req, res) => {
   }
 };
 
-const iniciarCirculo = (req, res) => {
+const iniciarCirculo = (req, res, next) => {
   try {
     const { id } = req.params;
 

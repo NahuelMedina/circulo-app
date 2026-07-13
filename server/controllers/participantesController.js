@@ -1,24 +1,15 @@
 const services = require("../services");
-const { v4: uuidv4 } = require("uuid");
 
 // Agregar Participante
 const agregarParticipante = (req, res, next) => {
   try {
-    const { id } = req.params;
-    const { nombre, telefono } = req.body;
-
-    const circulo = services.circulo.findCirculoById(id);
-
-    const participante = {
-      id: uuidv4(),
-      nombre,
-      telefono,
-      activo: true,
-    };
-
-    circulo.participantes.push(participante);
-
-    res.status(201).json(participante);
+    const participante = services.participante.addParticipante(
+      req.params.id,
+      req.body,
+    );
+    res
+      .status(201)
+      .json({ mensaje: "Participante agregado exitosamente.", participante });
   } catch (error) {
     next(error);
   }
@@ -27,9 +18,7 @@ const agregarParticipante = (req, res, next) => {
 // Obtener participantes
 const obtenerParticipantes = (req, res, next) => {
   try {
-    const { id } = req.params;
-
-    const circulo = services.circulo.findCirculoById(id);
+    const circulo = services.circulo.findCirculoById(req.params.id);
 
     res.json(circulo.participantes);
   } catch (error) {
@@ -40,18 +29,12 @@ const obtenerParticipantes = (req, res, next) => {
 // Eliminar participante
 const eliminarParticipante = (req, res, next) => {
   try {
-    const { id, participanteId } = req.params;
-
-    const circulo = services.circulo.findCirculoById(id);
     const participante = services.participante.deleteParticipanteById(
-      circulo,
-      participanteId,
+      req.params.id,
+      req.params.participanteId,
     );
 
-    res.json({
-      mensaje: "Participante eliminado",
-      participante,
-    });
+    res.json({ mensaje: "Participante eliminado", participante });
   } catch (error) {
     next(error);
   }
